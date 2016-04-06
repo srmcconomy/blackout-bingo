@@ -1,4 +1,4 @@
-.colour {   
+.colour {
     float: left;
     width: 20px;
     height: 20px;
@@ -580,7 +580,6 @@ th {
 }
 #bingoPage #results {
   float: left;
-  width: 594px;
   margin-right: 16px;
   text-align: right;
 }

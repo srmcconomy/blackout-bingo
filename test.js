@@ -28,11 +28,13 @@ io.on('connection', function (socket) {
       rooms[room] = {};
       rooms[room].users = [];
       rooms[room].colours = {};
-      rooms[room].selected = [['','','','',''],
-                              ['','','','',''],
-                              ['','','','',''],
-                              ['','','','',''],
-                              ['','','','','']];
+      rooms[room].selected = [['','','','','','',''],
+                              ['','','','','','',''],
+                              ['','','','','','',''],
+                              ['','','','','','',''],
+                              ['','','','','','',''],
+                              ['','','','','','',''],
+                              ['','','','','','','']];
       setTimeout(function() {
         console.log(room + " deleted");
         delete rooms[room];
@@ -48,7 +50,7 @@ io.on('connection', function (socket) {
     if(socket.rooms.length < 2) { console.log("not in room"); return; }
     var room = socket.rooms[1];
     if(rooms[room].users.indexOf(user) == -1) { console.log("user not in room"); return; }
-    if (x < 0 || x > 4 || y < 0 || y > 4) { console.log("invalid loc"); return; }
+    if (x < 0 || x > 6 || y < 0 || y > 6) { console.log("invalid loc"); return; }
     if (rooms[room].selected[x][y] != '') { console.log("already selected"); return; }
     rooms[room].selected[x][y] = user;
     socket.broadcast.to(room).emit('select', user, x, y);
@@ -58,7 +60,7 @@ io.on('connection', function (socket) {
     if(socket.rooms.length < 2) { console.log("not in room"); return; }
     var room = socket.rooms[1];
     if(rooms[room].users.indexOf(user) == -1) { console.log("user not in room"); return; }
-    if (x < 0 || x > 4 || y < 0 || y > 4) { console.log("invalid loc"); return; }
+    if (x < 0 || x > 6 || y < 0 || y > 6) { console.log("invalid loc"); return; }
     if (rooms[room].selected[x][y] != user) { console.log("not selected"); return; }
     rooms[room].selected[x][y] = '';
     socket.broadcast.to(room).emit('deselect', user, x, y);

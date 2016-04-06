@@ -12,7 +12,7 @@ $(function() {
 	colours = {};
 	socket.on("select", function(name, x, y) {
 		selected[x][y] = name;
-		var i = y * 5 + x + 1;
+		var i = y * 7 + x + 1;
 		$('#slot'+i).css('background', colours[name]);
 		$('#slot'+i).unbind('click');
 		if(name == user) {
@@ -21,7 +21,7 @@ $(function() {
 	});
 	socket.on("deselect", function(name, x, y) {
 		selected[x][y] = "";
-		var i = y * 5 + x + 1;
+		var i = y * 7 + x + 1;
 		$('#slot'+i).css('background', "");
 		$('#slot'+i).click(select(i));
 	});
@@ -50,7 +50,7 @@ $(function() {
 		colours[user] = colour;
 		for (var x in a) {
 			for (var y in a[x]) {
-				var i = y * 5 + x * 1 + 1;
+				var i = y * 7 + x * 1 + 1;
 				if (a[x][y] == '') {
 					$('#slot'+i).click(select(i));
 				} else {
@@ -84,18 +84,18 @@ $(function() {
 		colours[name] = colour;
 		for (var x in selected) {
 			for (var y in selected[x]) {
-				var i = y * 5 + x * 1 + 1;
+				var i = y * 7 + x * 1 + 1;
 				if (selected[x][y] == name) {
 					$('#slot'+i).css('background', colour);
-				}				
+				}
 			}
 		}
 	});
 	function select(i) {
 		return function() {
 			$('#slot'+i).css('background', colours[user])
-			var x = (i - 1) % 5;
-			var y = ((i - 1) - x) / 5;
+			var x = (i - 1) % 7;
+			var y = ((i - 1) - x) / 7;
 			selected[x][y] = user;
 			socket.emit("select", user, x, y);
 			$('#slot'+i).click(deselect(i));
@@ -104,8 +104,8 @@ $(function() {
 	function deselect(i) {
 		return function() {
 			$('#slot'+i).css('background', "");
-			var x = (i - 1) % 5;
-			var y = ((i - 1) - x) / 5;
+			var x = (i - 1) % 7;
+			var y = ((i - 1) - x) / 7;
 			selected[x][y] = "";
 			socket.emit("deselect", user, x, y);
 			$('#slot'+i).click(select(i));
@@ -153,12 +153,13 @@ $(function() {
 			socket.emit("setcolour", user, $("#colour").val())
 			var bingoOpts = {
 				seed: $('#seed').val() * 1,
-				mode: 'normal', 
-				lang: 'name'
+				mode: 'normal',
+				lang: 'name',
+				size: 7
 			};
-			var bingoFunc = ootBingoGenerator;
+			var bingoFunc = bingoGenerator;
 			var bingoBoard = bingoFunc(bingoList, bingoOpts);
-			for (i=1; i<=25; i++) {  
+			for (i=1; i<=49; i++) {
 				$('#slot'+i).append(bingoBoard[i].name);
 			}
 		}
